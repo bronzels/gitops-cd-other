@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pywechatnoreply
+  namespace: batchpy
+data:
+  MODEL_NAME: 'rbt3'
+  MODEL_MUL_REV: 'mul_rel_202107030256'
+  MODEL_BI_REV: 'bi_rel_202107030256'
+  XUNFEI_APPID: 'pTYzZZsDwPcd1y0HuHlLJh7sa/LskEd5/b+LIT3O++ttbgA03eyoQtOanv8onUaW858bLhCADACi0W6a8rw22BCuOKWCb0310fdcHXl7C/0E6nUW8fR4OV5F0n3msS5agxAjsY5MMqZV9exyZgH59lG4kARyDx0ai9jycS5VLXU='
+  XUNFEI_APISECRET: '9CbLalYgaDNYUfFaMsBR7ZWF1dUsb5TCRLu4kejxV4ciHs5CEYOvJHc49QwAsv5XW/dychK7qfVW7Ceg68MmYGS8B4pbRQzYECtEqlyeY6dMkv627/7gFzAXijgq5gaJ20V1jRfBTaRrINbVZ/msyiZbDYtlGYKCHve8yX42z2U='
+  XUNFEI_APIKEY: 'aoeWlkmg7IcZe40S2d0mTef73BwxadexIHNXO51u+lfQe2Xme5NBrljsP0+VSE9nwxA8lRaWlvkOn/uM0S1vtZAIhXPtXmYTdEoXc0M8I1bhjRj7OhlxzoIXGruuDHn+SdE5nY1zCX9F5qLUH9ps7nx08JE30iiXMgjbEgDUpEw='
+

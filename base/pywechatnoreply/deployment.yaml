@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy-pywechatnoreply
+  namespace: batchpy
+spec:
+  selector:
+    matchLabels:
+      app: pywechatnoreply
+  template:
+    metadata:
+      labels:
+        app: pywechatnoreply
+    spec:
+      hostAliases:
+        - ip: "43.255.231.119"
+          hostnames:
+            - "iat-api.xfyun.cn"
+        - ip: "42.62.116.19"
+          hostnames:
+            - "iat-api.xfyun.cn"
+        - ip: "125.254.169.11"
+          hostnames:
+            - "iat-api.xfyun.cn"
+        - ip: "59.107.24.13"
+          hostnames:
+            - "iat-api.xfyun.cn"
+        - ip: "42.62.42.12"
+          hostnames:
+            - "iat-api.xfyun.cn"
+        - ip: "59.107.24.3"
+          hostnames:
+            - "iat-api.xfyun.cn"
+        - ip: "42.62.42.19"
+          hostnames:
+            - "iat-api.xfyun.cn"
+      imagePullSecrets:
+        - name: harborsecret
+      containers:
+        - image: harbor.my.org:1080/python-app/pywechatnoreply:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: "pywechatnoreply"
+          name: pywechatnoreply
+          readinessProbe:
+            exec:
+              command: ["python", "client_test.py"]
+            initialDelaySeconds: 60
+            periodSeconds: 120
+            successThreshold: 1
+            timeoutSeconds: 60
+          livenessProbe:
+            exec:
+              command: ["python", "client_test.py"]
+            initialDelaySeconds: 60
+            periodSeconds: 120
+            successThreshold: 1
+            timeoutSeconds: 60
+          volumeMounts:
+            - mountPath: /data1/www/analysis_group
+              name: pywechatnoreply-mnt
+      volumes:
+        - name: pywechatnoreply-mnt
+          persistentVolumeClaim:
+            claimName: pywechatnoreply-pvc

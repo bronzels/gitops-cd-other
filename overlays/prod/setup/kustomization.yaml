@@ -1,0 +1,5 @@
+resources:
+- configmap-servpy-pywechatnoreply.yaml
+- harborsecret-batchpy.yaml
+- pywechatnoreply-nfs-pv.yaml
+- ../../../base/setup

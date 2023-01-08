@@ -1,0 +1,6 @@
+commonLabels:
+  variant: prod
+bases:
+- setup
+- pywechatnoreply
+- pywechatnoreply-driver

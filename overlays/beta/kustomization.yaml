@@ -1,0 +1,6 @@
+commonLabels:
+  variant: beta
+bases:
+- setup
+- pywechatnoreply
+- pywechatnoreply-driver

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy-pywechatnoreply
+  namespace: batchpy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pywechatnoreply
+  template:
+    metadata:
+      labels:
+        app: pywechatnoreply
+    spec:
+      containers:
+        - image: harbor.my.org:1080/python-app/pywechatnoreply
+          name: pywechatnoreply
+          resources:
+            limits:
+              cpu: "4"
+              memory: 12Gi
+            requests:
+              cpu: 250m
+              memory: 750Mi

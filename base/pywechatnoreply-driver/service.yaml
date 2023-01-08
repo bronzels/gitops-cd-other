@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: pywechatnoreply-driver
+  namespace: batchpy
+spec:
+  selector:
+    app: pywechatnoreply-driver
+  ports:
+    - name: myport
+      protocol: TCP
+      port: 4040
+      targetPort: 4040
+      nodePort: 30040
+  type: NodePort

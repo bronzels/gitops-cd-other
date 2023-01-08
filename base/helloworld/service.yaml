@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: myservice-helloworld
+  namespace: batchpy
+spec:
+  selector:
+    app: helloworld
+  ports:
+    - name: myport
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: myservice-helloworld-ext
+  namespace: batchpy
+spec:
+  selector:
+    app: helloworld
+  ports:
+    - name: myport
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30002
+  type: NodePort

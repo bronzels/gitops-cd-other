@@ -1,0 +1,115 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: pywechatnoreply-driver
+  namespace: batchpy
+  labels:
+    app: pywechatnoreply-driver
+spec:
+  # run hourly at +10min
+  timezone: "Asia/Shanghai"
+  schedule: "10 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 24
+  failedJobsHistoryLimit: 24
+  workflowSpec:
+    imagePullSecrets:
+      - name: harborsecret
+    entrypoint: whalesay
+    templates:
+      - name: whalesay
+        container:
+          image: harbor.my.org:1080/python-app/pywechatnoreply-driver:20210710172256_741
+          env:
+            - name: GRPC_HOST
+              value: myservice-pywechatnoreply
+            - name: GRPC_PORT
+              value: "8080"
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: K8S_APISERVER
+              value: 10.15.67.2:6443
+            - name: SPARK_EXECUTOR_INSTANCES
+              value: "4"
+            - name: SPARK_KUBERNETES_EXECUTOR_REQUEST_CORES
+              value: "2"
+            - name: SPARK_KUBERNETES_EXECUTOR_LIMIT_CORES
+              value: "4"
+            - name: API_HOST
+              value: 192.168.74.54
+            - name: API_PORT
+              value: "7007"
+            - name: DB_HOST
+              value: 192.168.74.44
+            - name: DB_DATABASE
+              value: AcadsocWechatManager
+            - name: DB_USER
+              value: akBRhW1FrkFEYudsDRdT8Bj8qJIZhkgTJQaBH0nFw4l75BGoZ+ev8fUheKEr74y1Ji8pYYKQ6FBZsye/WhFEI8EUV+QiN9E0z5r/C6cx7ltlomD3znXb2rNfJQIgyX95QyOvdQbwLe4cRDWD0H7ZmjucmJ+c4amvGrafTqrqwic=
+            - name: DB_PASSWD
+              value: f9hIGzVnv7BokwRNgK14iLFB+b5dLXG1Z8Xmh6dVPPLPB+UnrmnJCL2qGS0ssf+n4b4S8QmMuK8g6hDxSS1GLmK3CSN99xWk1Wm5d1tpBuWO6xscQM3zBf66oZPI8UH4LcA6rHAFVNQzGyN+eRbk1T8WnilwV+9MTf3a8p34aww=
+            - name: API_ADD
+              value: CT
+            - name: REDIS_HOST
+              value: 192.168.0.85
+            - name: REDIS_PORT
+              value: "16379"
+            - name: REDIS_MAX_CONN
+              value: "10"
+            - name: REDIS_PASSWD
+              value: EfTjF6f8uXKKPxl2SiucXCEJzO1tdzY/rwszWt6O1cO89sLQRQbN5nn7kRXwcd9hxlAMhhTtCztS2hPoDzD2bawoV4OtT8IT2X3Etb1Urxs9aV4iNS6doqkSShutiugZhCQboWrfsM3FEZEFChQv4+Zsjckw2DFbG1/Fl9+s/K0=
+            - name: REDIS_EXPIRE
+              value: "259200"
+            - name: SMTP_SMARTHOST
+              value: smtp.mxhichina.com
+            - name: SMTP_SMARTPORT
+              value: "465"
+            - name: SMTP_AUTH_USERNAME
+              value: rntHyO+rAEpmOO+32A8Leu2lMZ3a3nox52IJd2ssfnG0hIwOil6UkNaVrfM7C6PcnFrFIOQY2A82QtJf1EpG0WnSGTcl0+XAL40AnAQqXoyDB6CBY3By/tMrBEfJZhCtMTtuBVymsljnu5RehMxjqrEIz5awxUmg8tZw1Py6bcE=
+            - name: SMTP_AUTH_PASSWORD
+              value: Ob3QFW/NDDK0yVLturor9LYrT86cF8/JEUzxMjA08EG2wVy5/Yjls+hLhklCbO2S+S8t0HKUjdT/rEgzz+QS+gV1OBOsk+B2g4TnTE2ctp/tGQXFXg8+rxb/xSFkrmFSHffFQxkTIaOeX9fQ18GyEFNv4ikjoIuNigPadWJSQHE=
+            - name: SMTP_FROM
+              value: gRvlw2BZJlHsof3PZ6xG60E6EJLe6iI9STrEvonH9sjrh685QNAG7BjxDyrlzCbfi1KZay5OOp9dtYQ7mOgBElM1UJkTCH3rnB52y+JgDy6/uhTxoo61zwWF0X8SJ+ojf2QfSfxfXVEysME/AVEQ/FYUKnYbsEtKAFAFrPB7TEQ=
+            - name: SMTP_RECEIVERS
+              value: ArKBTrqPPMFtgjSYAl9EOeWksSBH0YiqSEb08oHVIKoFi0ZQA3euGwF2Ns98/BXV3GMEHjYOkVjlxIz6h0QjrmaPbjlkaPxV92SAgwP+Kn1w4SOJ1wrJLp+TvfOrIg6KkXyXmbZt2l+xcGo58vLIgyTiiL/p6ZfUjYF0uyLpHMM=
+            - name: WARN_MODE
+              value: none
+            - name: BOT_KEY
+              value: olWTyrI5jA/XW9It97MiXvtuVAXW+LT72Z07KbbU9Ejd2AOz8wLd/nbKlk1Xjurktl2EgrVZwLqASHVlq3eHTBAfOkfMoTsVwPsb4ipKmsrBWqOsiwbZvhLesRmtE/eP04qMTCDS5rVNgUYJ3Nqph6TV+IE4/PzyAo/eLVRqTNY=
+          command:
+            - /opt/spark/bin/spark-submit
+          args:
+            - --master
+            - k8s://https://$(K8S_APISERVER)
+            - --deploy-mode
+            - client
+            - --name
+            - pywechatnoreply-driver
+            - --conf
+            - spark.kubernetes.namespace=batchpy
+            - --conf
+            - spark.kubernetes.authenticate.driver.serviceAccountName=default
+            - --conf
+            - spark.kubernetes.driver.pod.name=$(MY_POD_NAME)
+            - --conf
+            - spark.driver.host=$(MY_POD_IP)
+            - --conf
+            - spark.kubernetes.container.image=harbor.my.org:1080/python-app/pywechatnoreply-driver:20210710172256_741
+            - --conf
+            - spark.kubernetes.container.image.pullPolicy=Always
+            - --conf
+            - spark.kubernetes.container.image.pullSecrets=harborsecret
+            - --conf
+            - spark.kubernetes.pyspark.pythonVersion=3
+            - --conf
+            - spark.executor.instances=$(SPARK_EXECUTOR_INSTANCES)
+            - --conf
+            - spark.kubernetes.executor.request.cores=$(SPARK_KUBERNETES_EXECUTOR_REQUEST_CORES)
+            - --conf
+            - spark.kubernetes.executor.limit.cores=$(SPARK_KUBERNETES_EXECUTOR_LIMIT_CORES)
+            - /opt/spark/work-dir/main.py

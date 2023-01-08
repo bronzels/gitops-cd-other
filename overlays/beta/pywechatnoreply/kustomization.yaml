@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../../base/pywechatnoreply
+patchesStrategicMerge:
+- deployment_patch.yaml
+commonAnnotations:
+  manual_redeploy: 2021-05-06-13-17
+images:
+- name: harbor.my.org:1080/python-app/pywechatnoreply
+  newTag: "20210713123842_742"

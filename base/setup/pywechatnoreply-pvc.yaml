@@ -1,0 +1,20 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pywechatnoreply-pvc
+  namespace: batchpy
+  labels:
+    storage: pywechatnoreply-nfs-pvc
+  annotations:
+    kubernetes.io/description: "PersistentVolumeClaim for PV"
+spec:
+  selector:
+    matchLabels:
+      storage: pywechatnoreply-nfs-pv
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  storageClassName: nfs
+  resources:
+    requests:
+      storage: 1Gi

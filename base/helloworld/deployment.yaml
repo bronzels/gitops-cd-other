@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy-helloworld
+  namespace: batchpy
+spec:
+  selector:
+    matchLabels:
+      app: helloworld
+  template:
+    metadata:
+      labels:
+        app: helloworld
+    spec:
+      imagePullSecrets:
+        - name: harborsecret
+      containers:
+        - image: harbor.my.org:1080/python-app/pywechatnoreply:helloworld
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: "pywechatnoreply"
+          name: helloworld
+          readinessProbe:
+            exec:
+              command: ["python", "client_test.py"]
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 60
+          livenessProbe:
+            exec:
+              command: ["python", "client_test.py"]
+            initialDelaySeconds: 60
+            periodSeconds: 360
+            successThreshold: 1
+            timeoutSeconds: 60
+          volumeMounts:
+            - mountPath: /data1/www/analysis_group
+              name: pywechatnoreply-mnt
+      volumes:
+        - name: pywechatnoreply-mnt
+          persistentVolumeClaim:
+            claimName: pywechatnoreply-pvc
